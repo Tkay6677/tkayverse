@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base Styles */
+body {
+  @apply min-h-screen font-sans;
+}
+
+/* Theme Variations */
+.theme-light {
+  @apply bg-white text-black;
+}
+.theme-light h2 {
+  @apply text-blue-600;
+}
+.theme-light .hexagon {
+  @apply bg-blue-400;
+}
+
+.theme-dark {
+  @apply bg-gray-900 text-white;
+}
+.theme-dark h2 {
+  @apply text-green-400;
+}
+.theme-dark .hexagon {
+  @apply bg-green-500;
+}
+
+.theme-neon {
+  @apply bg-black text-white animate-pulse-bg;
+}
+.theme-neon h2 {
+  @apply text-pink-500; /* Removed @apply glitch */
+}
+.theme-neon .hexagon {
+  @apply bg-pink-500;
+}
+
+/* Glitch Class and Animation */
+.glitch {
+  @apply relative; /* Use Tailwind for positioning */
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.animate-glitch {
+  animation: glitch 0.3s infinite;
+}
+
+.animate-glitch-slow {
+  animation: glitch 1s infinite;
+}
+
+/* Neon Background Pulse */
+@keyframes pulse-bg {
+  0% { background-color: #000; }
+  50% { background-color: #1a1a1a; }
+  100% { background-color: #000; }
+}
+
+.animate-pulse-bg {
+  animation: pulse-bg 3s infinite;
+}
+
+/* Hexagon Shape */
+.hexagon {
+  position: relative;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+.hexagon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  z-index: -1;
+}

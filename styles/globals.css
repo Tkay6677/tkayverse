@@ -86,3 +86,17 @@ body {
   background: inherit;
   z-index: -1;
 }
+
+/* Horizontal Slide Animation */
+@keyframes slide-horizontal {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* Halfway, since we doubled the skills */
+}
+
+.animate-slide-horizontal {
+  animation: slide-horizontal 20s linear infinite;
+}
+
+.group:hover .animate-slide-horizontal {
+  animation-play-state: paused; /* Pause on hover */
+}

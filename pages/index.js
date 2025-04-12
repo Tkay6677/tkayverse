@@ -76,7 +76,7 @@ export default function Home() {
         </h2>
         <About />
       </section>
-      <section className="py-16">
+      <section className="py-16" id='blog'>
         <h2 className={`text-4xl font-bold text-center mb-12 ${theme === 'neon' ? 'glitch animate-glitch-slow' : ''}`}>
           Tech Vibe Check
         </h2>

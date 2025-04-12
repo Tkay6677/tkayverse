@@ -15,6 +15,7 @@
     "ace-builds": "^1.39.1",
     "autoprefixer": "^10.4.21",
     "next": "15.2.2",
+    "nodemailer": "^6.10.0",
     "postcss": "^8.5.3",
     "pyodide": "^0.27.5",
     "react": "^19.0.0",

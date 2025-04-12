@@ -1,0 +1,23 @@
+[
+    {
+      "id": 1,
+      "title": "Why Rust is My Jam",
+      "snippet": "No garbage collector, insane speed, and memory safety? Rust’s the real deal. I built a CLI tool that runs circles around C++.",
+      "content": "Rust changed the way I think about programming. When I first stumbled upon it two years ago, I was hooked by its promise of performance without sacrificing safety. No more segfaults haunting my dreams! I built a CLI tool for file processing that outperformed my old C++ version by a mile. The type system? Strict but fair, like a good coach. Plus, the community’s dope—always dropping knowledge on Reddit and Discord. If you haven’t tried Rust yet, grab `cargo` and build something. You won’t look back.",
+      "date": "2025-04-04"
+    },
+    {
+      "id": 2,
+      "title": "Solana’s Speed Changed My Life",
+      "snippet": "Blockchain at 65,000 TPS? Solana’s why I’m deep in Web3 now—deployed a DApp faster than my coffee brewed.",
+      "content": "Solana’s a beast. I jumped into blockchain last year, and its 65,000 transactions per second blew my mind. Compare that to Ethereum’s 15 TPS—it’s like a spaceship vs. a bicycle. I built a wallet checker DApp in Rust and deployed it in a weekend. The Solana CLI and Anchor framework made it stupidly easy to spin up smart contracts (sorry, ‘programs’). Gas fees? Practically nonexistent. My only gripe is the docs could be clearer, but the Discord community’s got your back. Web3’s the future, and Solana’s driving it.",
+      "date": "2025-03-30"
+    },
+    {
+      "id": 3,
+      "title": "How I Accidentally Built a .NET Empire",
+      "snippet": "Started with a VB.NET app for fun. Next thing I know, I’m debugging forms at 3 AM. Send help.",
+      "content": "It all started four years ago with a VB.NET app for a school project—a clunky inventory tracker. I didn’t expect to fall down the .NET rabbit hole, but C# pulled me in. Fast forward, I’ve built desktop apps, automation tools, and even a mini ERP system for a local shop. The .NET ecosystem is wild—LINQ, WPF, ASP.NET, it’s got everything. But let’s be real: debugging Windows Forms at 3 AM is a rite of passage. Pro tip? Embrace Rider or Visual Studio’s IntelliSense—it’s like having a co-pilot. Would I do it again? Yeah, but with more coffee.",
+      "date": "2025-03-25"
+    }
+  ]

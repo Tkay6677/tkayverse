@@ -11,6 +11,7 @@
   "dependencies": {
     "@solana/web3.js": "^1.98.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.16",
     "ace-builds": "^1.39.1",
     "autoprefixer": "^10.4.21",
     "next": "15.2.2",

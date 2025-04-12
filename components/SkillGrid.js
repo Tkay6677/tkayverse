@@ -46,8 +46,8 @@ export default function SkillGrid() {
             onMouseLeave={() => setHoveredSkill(null)}
           >
             <div className="hexagon w-20 h-20 sm:w-24 sm:h-24 bg-green-500 flex flex-col items-center justify-center transform transition-transform hover:scale-110">
-              <div className="text-black font-bold skill-icon text-2xl mb-1">{skill.icon}</div>
-              <span className="text-black text-sm sm:text-base text-center">
+              {/* <div className="text-black font-bold skill-icon text-2xl mb-1">{skill.icon}</div> */}
+              <span className="text-black font-bold text-sm sm:text-base text-center">
                 {skill.name}
               </span>
             </div>

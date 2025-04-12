@@ -1,12 +1,25 @@
+import dynamic from 'next/dynamic';
 import Terminal from '../components/Terminal';
 import SkillGrid from '../components/SkillGrid';
 import ProjectCard from '../components/ProjectCard';
-import Playground from '../components/Playground';
 import About from '../components/About';
 import Blog from '../components/Blog';
 import Contact from '../components/Contact';
 import { useTheme } from '../contexts/ThemeContext';
 import Head from 'next/head';
+
+// Lazy-load Playground
+const Playground = dynamic(() => import('../components/Playground'), {
+  ssr: false, // Disable server-side rendering
+  loading: () => (
+    <div className="max-w-5xl mx-auto px-4">
+      <div className="rounded-lg p-6 bg-gray-800 border border-green-500">
+        <h3 className="text-2xl font-bold text-green-400 mb-4">Python Sandbox</h3>
+        <p className="text-gray-300 mb-4 animate-pulse">Loading Python Sandbox...</p>
+      </div>
+    </div>
+  ),
+});
 
 export default function Home() {
   const { theme, switchTheme } = useTheme();
@@ -17,7 +30,10 @@ export default function Home() {
     <div className="relative">
       <Head>
         <title>Tkay’s Portfolio | Tokoni Orukaria</title>
-        <meta name="description" content="Final-year Comp Sci student showcasing 5+ years of coding—Rust, Solana, .NET, and more." />
+        <meta
+          name="description"
+          content="Final-year Comp Sci student showcasing 5+ years of coding—Rust, Solana, .NET, and more."
+        />
       </Head>
       <button
         onClick={switchTheme}
@@ -29,13 +45,21 @@ export default function Home() {
         <Terminal />
       </section>
       <section className="py-16">
-        <h2 className={`text-4xl font-bold text-center mb-12 ${theme === 'neon' ? 'glitch animate-glitch-slow' : ''}`}>
+        <h2
+          className={`text-4xl font-bold text-center mb-12 ${
+            theme === 'neon' ? 'glitch animate-glitch-slow' : ''
+          } ${theme === 'neon' ? 'text-pink-500' : theme === 'light' ? 'text-blue-600' : 'text-green-400'}`}
+        >
           Skills Dashboard
         </h2>
         <SkillGrid />
       </section>
       <section className="py-16">
-        <h2 className={`text-4xl font-bold text-center mb-12 ${theme === 'neon' ? 'glitch animate-glitch-slow' : ''}`}>
+        <h2
+          className={`text-4xl font-bold text-center mb-12 ${
+            theme === 'neon' ? 'glitch animate-glitch-slow' : ''
+          } ${theme === 'neon' ? 'text-pink-500' : theme === 'light' ? 'text-blue-600' : 'text-green-400'}`}
+        >
           The Code Vault
         </h2>
         <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
@@ -60,30 +84,44 @@ export default function Home() {
             link="https://primeliving.onrender.com/"
             image="/images/primeliving.png"
           />
-
         </div>
       </section>
-      {/* Rest of the sections unchanged */}
       <section className="py-16">
-        <h2 className={`text-4xl font-bold text-center mb-12 ${theme === 'neon' ? 'glitch animate-glitch-slow' : ''}`}>
+        <h2
+          className={`text-4xl font-bold text-center mb-12 ${
+            theme === 'neon' ? 'glitch animate-glitch-slow' : ''
+          } ${theme === 'neon' ? 'text-pink-500' : theme === 'light' ? 'text-blue-600' : 'text-green-400'}`}
+        >
           Interactive Playground
         </h2>
         <Playground />
       </section>
       <section className="py-16">
-        <h2 className={`text-4xl font-bold text-center mb-12 ${theme === 'neon' ? 'glitch animate-glitch-slow' : ''}`}>
+        <h2
+          className={`text-4xl font-bold text-center mb-12 ${
+            theme === 'neon' ? 'glitch animate-glitch-slow' : ''
+          } ${theme === 'neon' ? 'text-pink-500' : theme === 'light' ? 'text-blue-600' : 'text-green-400'}`}
+        >
           About Tkay
         </h2>
         <About />
       </section>
-      <section className="py-16" id='blog'>
-        <h2 className={`text-4xl font-bold text-center mb-12 ${theme === 'neon' ? 'glitch animate-glitch-slow' : ''}`}>
+      <section className="py-16" id="blog">
+        <h2
+          className={`text-4xl font-bold text-center mb-12 ${
+            theme === 'neon' ? 'glitch animate-glitch-slow' : ''
+          } ${theme === 'neon' ? 'text-pink-500' : theme === 'light' ? 'text-blue-600' : 'text-green-400'}`}
+        >
           Tech Vibe Check
         </h2>
         <Blog />
       </section>
       <section className="py-16">
-        <h2 className={`text-4xl font-bold text-center mb-12 ${theme === 'neon' ? 'glitch animate-glitch-slow' : ''}`}>
+        <h2
+          className={`text-4xl font-bold text-center mb-12 ${
+            theme === 'neon' ? 'glitch animate-glitch-slow' : ''
+          } ${theme === 'neon' ? 'text-pink-500' : theme === 'light' ? 'text-blue-600' : 'text-green-400'}`}
+        >
           Contact: The Drop Zone
         </h2>
         <Contact />

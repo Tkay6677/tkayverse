@@ -15,76 +15,118 @@ export default function Playground() {
   const [code, setCode] = useState(examples['Add Numbers']);
   const [output, setOutput] = useState('');
   const [selectedExample, setSelectedExample] = useState('Add Numbers');
+  const [pyodideReady, setPyodideReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadProgress, setLoadProgress] = useState(0);
+  const pyodideRef = useRef(null);
   const outputRef = useRef(null);
-  const brythonInitialized = useRef(false);
+  const containerRef = useRef(null);
+  const hasLoadedScript = useRef(false);
 
-  // Load Brython and set up output capture
+  // Load Pyodide when in view
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // Load Brython script
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/brython@3.12.0/brython.min.js';
-    script.async = true;
-    script.onload = () => {
-      if (!brythonInitialized.current && typeof window.brython === 'function') {
-        window.brython({ debug: 0 }); // Initialize once
-        brythonInitialized.current = true;
-      }
-    };
-    script.onerror = () => {
-      console.error('Failed to load Brython');
-      setOutput('Error: Could not load Brython');
-    };
-    document.body.appendChild(script);
+    let isMounted = true;
 
-    // Override console.log to capture output
-    const originalConsoleLog = console.log;
-    console.log = (...args) => {
-      setOutput((prev) => prev + args.join(' ') + '\n');
-      originalConsoleLog(...args);
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasLoadedScript.current) {
+          hasLoadedScript.current = true;
+          setIsLoading(true);
+
+          const loadPyodide = async () => {
+            try {
+              const script = document.createElement('script');
+              script.src = '/pyodide/pyodide.js';
+              script.async = true;
+
+              const scriptPromise = new Promise((resolve, reject) => {
+                script.onload = resolve;
+                script.onerror = () => reject(new Error('Failed to load Pyodide'));
+                document.body.appendChild(script);
+              });
+
+              // Fake progress simulation (since WASM fetch is opaque)
+              const progressInterval = setInterval(() => {
+                setLoadProgress((prev) => Math.min(prev + 10, 90));
+              }, 500);
+
+              await scriptPromise;
+
+              if (!isMounted) {
+                clearInterval(progressInterval);
+                return;
+              }
+
+              const pyodide = await window.loadPyodide({
+                indexURL: '/pyodide/',
+                stdout: (text) => {
+                  if (text !== '' && isMounted) {
+                    setOutput((prev) => prev + text + '\n');
+                  }
+                },
+                stderr: (text) => {
+                  if (text !== '' && isMounted) {
+                    setOutput((prev) => prev + `Error: ${text}\n`);
+                  }
+                },
+              });
+
+              if (isMounted) {
+                pyodideRef.current = pyodide;
+                setPyodideReady(true);
+                setLoadProgress(100);
+                setIsLoading(false);
+                clearInterval(progressInterval);
+              }
+            } catch (err) {
+              if (isMounted) {
+                setOutput(`Error: Failed to load Python - ${err.message}`);
+                setIsLoading(false);
+                setLoadProgress(0);
+              }
+            }
+          };
+
+          loadPyodide();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
 
     // Cleanup
     return () => {
-      console.log = originalConsoleLog;
-      if (script.parentNode) {
-        document.body.removeChild(script);
+      isMounted = false;
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
       }
-      brythonInitialized.current = false;
+      pyodideRef.current = null;
+      setPyodideReady(false);
+      setIsLoading(false);
+      setLoadProgress(0);
+      if (hasLoadedScript.current) {
+        const script = document.querySelector('script[src*="/pyodide/pyodide.js"]');
+        if (script?.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      }
     };
   }, []);
 
-  const runCode = () => {
-    if (!brythonInitialized.current || typeof window.__BRYTHON__ !== 'object') {
-      setOutput('Brython is still loading...');
+  const runCode = async () => {
+    if (!pyodideReady || !pyodideRef.current) {
+      setOutput('Python is still loading...');
       return;
     }
 
     setOutput(''); // Clear previous output
     try {
-      // Redirect print to output
-      window.__BRYTHON__.builtins.print = (...args) => {
-        setOutput((prev) => prev + args.join(' ') + '\n');
-      };
-
-      // Create a unique script element for Python code
-      const scriptId = `brython-script-${Date.now()}`;
-      const pythonScript = document.createElement('script');
-      pythonScript.id = scriptId;
-      pythonScript.type = 'text/python';
-      pythonScript.text = code;
-      document.body.appendChild(pythonScript);
-
-      // Run the script
-      window.__BRYTHON__.run(scriptId, '__main__', true);
-
-      // Clean up
-      setTimeout(() => {
-        if (pythonScript.parentNode) {
-          document.body.removeChild(pythonScript);
-        }
-      }, 0);
+      await pyodideRef.current.runPythonAsync(code);
     } catch (err) {
       setOutput(`Error: ${err.message}`);
     }
@@ -97,7 +139,7 @@ export default function Playground() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4">
+    <div className="max-w-5xl mx-auto px-4" ref={containerRef}>
       <div
         className={`rounded-lg p-6 ${
           theme === 'neon'
@@ -123,8 +165,31 @@ export default function Playground() {
             theme === 'neon' ? 'text-pink-300' : theme === 'light' ? 'text-blue-800' : 'text-gray-300'
           }`}
         >
-          Edit the code or pick an example and hit Run!
+          Edit the code or pick an example and hit Run!{' '}
+          {isLoading && (
+            <span
+              className={`inline-block ${
+                theme === 'neon' ? 'text-pink-500 glitch animate-glitch-slow' : 'animate-pulse'
+              }`}
+            >
+              (Loading Python...)
+            </span>
+          )}
         </p>
+        {isLoading && (
+          <div className="mb-4">
+            <div
+              className={`h-2 rounded-full ${
+                theme === 'neon'
+                  ? 'bg-pink-500'
+                  : theme === 'light'
+                  ? 'bg-blue-500'
+                  : 'bg-green-500'
+              }`}
+              style={{ width: `${loadProgress}%`, transition: 'width 0.3s ease-in-out' }}
+            />
+          </div>
+        )}
         <select
           value={selectedExample}
           onChange={(e) => loadExample(e.target.value)}
@@ -159,12 +224,15 @@ export default function Playground() {
         />
         <button
           onClick={runCode}
+          disabled={isLoading}
           className={`mt-4 font-bold py-2 px-4 rounded transition-colors ${
-            theme === 'neon'
-              ? 'bg-pink-500 text-black hover:bg-cyan-400'
-              : theme === 'light'
-              ? 'bg-blue-500 text-white hover:bg-blue-400'
-              : 'bg-green-500 text-black hover:bg-green-400'
+            !isLoading
+              ? theme === 'neon'
+                ? 'bg-pink-500 text-black hover:bg-cyan-400'
+                : theme === 'light'
+                ? 'bg-blue-500 text-white hover:bg-blue-400'
+                : 'bg-green-500 text-black hover:bg-green-400'
+              : 'bg-gray-500 text-gray-300 cursor-not-allowed'
           }`}
         >
           Run Code

@@ -31,6 +31,12 @@ export default function Contact() {
     }
   };
 
+  const socials = [
+    { name: 'GitHub', link: 'https://github.com/tkay6677' },
+    { name: 'LinkedIn', link: 'https://linkedin.com/in/tokoni-ebi' },
+    { name: 'Twitter', link: 'https://twitter.com/_tkayverse' },
+  ];
+
   return (
     <div className="max-w-lg mx-auto px-4">
       <p className="text-gray-300 text-center mb-6">Drop me a line—let’s build something crazy together.</p>
@@ -79,7 +85,8 @@ export default function Contact() {
         </div>
         <button
           type="submit"
-          className="w-full bg-purple-500 text-black font-bold py-2 rounded hover:bg-purple-400 transition-colors"
+          className="w-full bg-purple-500 text-black font-bold py-2 rounded hover:bg-purple-400 transition-colors glitch data-[submitting=true]:animate-glitch"
+          data-submitting={status === 'Sending...'}
         >
           Send It
         </button>
@@ -87,6 +94,19 @@ export default function Contact() {
       {status && (
         <p className="mt-4 text-center text-green-400 font-mono">{status}</p>
       )}
+      <div className="mt-6 flex justify-center gap-6">
+        {socials.map((social, index) => (
+          <a
+            key={index}
+            href={social.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-400 hover:text-green-300 transition-colors font-bold"
+          >
+            {social.name}
+          </a>
+        ))}
+      </div>
     </div>
   );
 }

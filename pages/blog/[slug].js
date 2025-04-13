@@ -48,8 +48,20 @@ export default function BlogPost() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-16">
       <Head>
-        <title>{post.title} | Tkay’s Blog</title>
-        <meta name="description" content={post.snippet} />
+        <title>{post.title} | Tkay’s Tech Vibe Check</title>
+        <meta name="description" content={post.snippet.slice(0, 160)} />
+        <meta name="keywords" content={`Rust, Solana, .NET, ${post.title.split(' ').join(', ')}, Tkay portfolio`} />
+        <meta name="author" content="Tkay" />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.snippet.slice(0, 160)} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://tkayverse.vercel.app/blog/${post.slug}`} />
+        <meta property="og:image" content={post.previewImage || '/images/blog/placeholder.png'} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.snippet.slice(0, 160)} />
+        <meta name="twitter:image" content={post.previewImage || '/images/blog/placeholder.png'} />
+        <link rel="canonical" href={`https://tkayverse.vercel.app/blog/${post.slug}`} />
       </Head>
       <Link href="/#blog">
         <span

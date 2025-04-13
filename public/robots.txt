@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tkayverse.vercel.app/sitemap.xml

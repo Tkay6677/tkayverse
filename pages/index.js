@@ -34,6 +34,7 @@ export default function Home() {
           name="description"
           content="Final-year Comp Sci student showcasing 5+ years of coding—Rust, Solana, .NET, and more."
         />
+        <meta name="google-site-verification" content="C-XAhJHsGoC7x4ojjN0C9ojU3PXbxbTKd2ynVUC_Nks" />
       </Head>
       <button
         onClick={switchTheme}

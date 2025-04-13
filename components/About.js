@@ -5,7 +5,7 @@ export default function About() {
       { year: '3 Years Ago', event: 'Mastered Python and C++ for automation and performance.' },
       { year: '2 Years Ago', event: 'Discovered Rust—fell in love with its speed and safety.' },
       { year: 'Last Year', event: 'Jumped into Solana and blockchain—Web3 became my jam.' },
-      { year: 'Now', event: 'Well... The journey continuous!' },
+      { year: 'Now', event: 'Well... The journey continues!' },
     ];
   
     return (

@@ -1,25 +1,28 @@
-import { useRouter } from 'next/router';
-import posts from '../../data/blogs.json';
+import clientPromise from '../../lib/mongodb';
 import { useTheme } from '../../contexts/ThemeContext';
 import Head from 'next/head';
 import Link from 'next/link';
 
-export async function getStaticPaths() {
-  const paths = posts.map((post) => ({ params: { slug: post.slug } }));
-  return { paths, fallback: false };
+export async function getServerSideProps({ params }) {
+  const client = await clientPromise;
+  const db = client.db(process.env.MONGODB_DB);
+  const post = await db.collection('posts').findOne({ slug: params.slug });
+  if (!post) {
+    return { notFound: true };
+  }
+  return {
+    props: {
+      post: JSON.parse(JSON.stringify(post)),
+    },
+  };
 }
 
-export async function getStaticProps({ params }) {
-  const post = posts.find((p) => p.slug === params.slug);
-  return { props: { post } };
-}
-
-export default function BlogPost() {
-  const router = useRouter();
-  const { slug } = router.query;
+export default function BlogPost({ post }) {
+  
+  
   const { theme } = useTheme();
 
-  const post = posts.find((p) => p.slug === slug);
+  
 
   if (!post) {
     return (

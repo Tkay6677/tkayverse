@@ -6,6 +6,8 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          {/* TinyMCE CDN Script */}
+          <script src={`https://cdn.tiny.cloud/1/${process.env.NEXT_PUBLIC_TINYMCE_API_KEY}/tinymce/6/tinymce.min.js`} referrerPolicy="origin" />
         </Head>
         <body>
           <Main />

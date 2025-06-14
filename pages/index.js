@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Terminal from '../components/Terminal';
 import SkillGrid from '../components/SkillGrid';
 import ProjectCard from '../components/ProjectCard';
@@ -9,6 +9,7 @@ import Contact from '../components/Contact';
 import Modal from '../components/Modal';
 import { useTheme } from '../contexts/ThemeContext';
 import Head from 'next/head';
+import clientPromise from '../lib/mongodb';
 
 // Lazy-load Playground
 const Playground = dynamic(() => import('../components/Playground'), {
@@ -78,7 +79,7 @@ const projects = [
 ];
 
 
-export default function Home() {
+export default function Home({ projects, posts }) {
   const { theme, switchTheme } = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
@@ -201,7 +202,7 @@ export default function Home() {
         >
           Tech Vibe Check
         </h2>
-        <Blog />
+        <Blog initialPosts={posts} />
 
       </section>
       <section className="py-16">
@@ -219,4 +220,17 @@ export default function Home() {
       </Modal>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const client = await clientPromise;
+  const db = client.db(process.env.MONGODB_DB);
+  const projects = await db.collection('projects').find({}).sort({ createdAt: -1 }).toArray();
+  const posts = await db.collection('posts').find({}).sort({ date: -1 }).toArray();
+  return {
+    props: {
+      projects: JSON.parse(JSON.stringify(projects)),
+      posts: JSON.parse(JSON.stringify(posts)),
+    },
+  };
 }

@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
-import posts from '../data/blogs.json';
+
 import Link from 'next/link';
 import { useTheme } from '../contexts/ThemeContext';
 import Image from 'next/image';
 
-export default function Blog() {
+export default function Blog({ initialPosts = [] }) {
   const { theme } = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
+  const [posts, setPosts] = useState(initialPosts);
+
+      
+      
+      
+  
 
   // Close modal on Escape key press
   useEffect(() => {

@@ -1,3 +1,4 @@
+import clientPromise from '../../lib/mongodb';
 import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
@@ -10,6 +11,11 @@ export default async function handler(req, res) {
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'All fields are required' });
   }
+
+  // Persist contact in MongoDB
+  const client = await clientPromise;
+  const db = client.db(process.env.MONGODB_DB);
+  await db.collection('contacts').insertOne({ name, email, message, createdAt: new Date() });
 
   // List of ASCII art designs
   const asciiArtList = [

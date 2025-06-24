@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Tkayverse Blog</title>
+    <link>https://tkayverse.vercel.app</link>
+    <description>Rust, Solana & .NET musings</description>
+    <item>
+      <title><![CDATA[Why Rust is My Jam]]></title>
+      <link>https://tkayverse.vercel.app/blog/why-rust-is-my-jam</link>
+      <guid>https://tkayverse.vercel.app/blog/why-rust-is-my-jam</guid>
+      <pubDate>Sat, 14 Jun 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[No garbage collector, insane speed, and memory safety? Rust’s the real deal. I built a CLI tool that runs circles around C++.]]></description>
+    </item>
+    <item>
+      <title><![CDATA[Solana’s Speed Changed My Life]]></title>
+      <link>https://tkayverse.vercel.app/blog/solana-speed-changed-my-life</link>
+      <guid>https://tkayverse.vercel.app/blog/solana-speed-changed-my-life</guid>
+      <pubDate>Sat, 14 Jun 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[Blockchain at 65,000 TPS? Solana’s why I’m deep in Web3 now—deployed a DApp faster than my coffee brewed.]]></description>
+    </item>
+    <item>
+      <title><![CDATA[How I Accidentally Built a .NET Empire]]></title>
+      <link>https://tkayverse.vercel.app/blog/how-i-accidentally-built-a-dotnet-empire</link>
+      <guid>https://tkayverse.vercel.app/blog/how-i-accidentally-built-a-dotnet-empire</guid>
+      <pubDate>Sat, 14 Jun 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[Started with a VB.NET app for fun. Next thing I know, I’m debugging forms at 3 AM. Send help.]]></description>
+    </item>
+  </channel>
+</rss>

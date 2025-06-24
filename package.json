@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap && node scripts/build-rss.js && curl -s https://www.google.com/ping?sitemap=https://tkayverse.vercel.app/sitemap.xml || echo Google ping failed"
   },
   "dependencies": {
     "@solana/web3.js": "^1.98.0",
@@ -19,6 +20,8 @@
     "formidable": "^3.5.4",
     "mongodb": "^6.17.0",
     "next": "15.2.2",
+    "next-seo": "^6.8.0",
+    "next-sitemap": "^4.2.3",
     "nodemailer": "^6.10.0",
     "postcss": "^8.5.3",
     "pyodide": "^0.27.5",
@@ -26,10 +29,12 @@
     "react-ace": "^14.0.1",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
-
+    "rss": "^1.2.2",
+    "dotenv": "^10.0.0",
     "typed.js": "^2.1.0"
   },
   "devDependencies": {
+
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",

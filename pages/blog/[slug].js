@@ -1,6 +1,6 @@
 import clientPromise from '../../lib/mongodb';
 import { useTheme } from '../../contexts/ThemeContext';
-import Head from 'next/head';
+import { NextSeo, ArticleJsonLd } from 'next-seo';
 import Link from 'next/link';
 
 export async function getServerSideProps({ params }) {
@@ -50,22 +50,41 @@ export default function BlogPost({ post }) {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-16">
-      <Head>
-        <title>{post.title} | Tkay’s Tech Vibe Check</title>
-        <meta name="description" content={post.snippet.slice(0, 160)} />
-        <meta name="keywords" content={`Rust, Solana, .NET, ${post.title.split(' ').join(', ')}, Tkay portfolio`} />
-        <meta name="author" content="Tkay" />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.snippet.slice(0, 160)} />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://tkayverse.vercel.app/blog/${post.slug}`} />
-        <meta property="og:image" content={post.previewImage || '/images/blog/placeholder.png'} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.snippet.slice(0, 160)} />
-        <meta name="twitter:image" content={post.previewImage || '/images/blog/placeholder.png'} />
-        <link rel="canonical" href={`https://tkayverse.vercel.app/blog/${post.slug}`} />
-      </Head>
+      <NextSeo
+        title={`${post.title} | Tkay’s Tech Vibe Check`}
+        description={post.snippet.slice(0, 160)}
+        canonical={`https://tkayverse.vercel.app/blog/${post.slug}`}
+        openGraph={{
+          type: 'article',
+          url: `https://tkayverse.vercel.app/blog/${post.slug}`,
+          title: post.title,
+          description: post.snippet.slice(0, 160),
+          images: [
+            {
+              url: post.previewImage || '/images/blog/placeholder.png',
+              width: 800,
+              height: 600,
+              alt: post.title,
+            },
+          ],
+          article: {
+            publishedTime: post.date,
+          },
+        }}
+        twitter={{
+          handle: '@_tkayverse',
+          cardType: 'summary_large_image',
+        }}
+      />
+      <ArticleJsonLd
+        type="BlogPosting"
+        url={`https://tkayverse.vercel.app/blog/${post.slug}`}
+        title={post.title}
+        images={[post.previewImage || '/images/blog/placeholder.png']}
+        datePublished={post.date}
+        authorName="Tokoni Orukaria"
+        description={post.snippet.slice(0, 160)}
+      />
       <Link href="/#blog">
         <span
           className={`inline-block mb-6 font-bold ${

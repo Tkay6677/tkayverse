@@ -9,6 +9,7 @@ import Contact from '../components/Contact';
 import Modal from '../components/Modal';
 import { useTheme } from '../contexts/ThemeContext';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import clientPromise from '../lib/mongodb';
 
 // Lazy-load Playground
@@ -80,6 +81,7 @@ const projects = [
 
 
 export default function Home({ projects, posts }) {
+  const router = useRouter();
   const { theme, switchTheme } = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
@@ -99,6 +101,12 @@ export default function Home({ projects, posts }) {
   return (
     <div className="relative">
       <Head>
+        <link rel="canonical" href={`https://tkayverse.dev${router.asPath}`} />
+        <meta property="og:title" content="Tkay – Full-Stack / Rust / Solana Dev" />
+        <meta property="og:description" content="Rust, Solana, .NET projects, tutorials and more." />
+        <meta property="og:image" content="https://tkayverse.dev/og-cover.png" />
+        <meta property="og:url" content={`https://tkayverse.dev${router.asPath}`} />
+        <meta name="twitter:card" content="summary_large_image" />
         <title>Tkay’s Portfolio | Tokoni Orukaria</title>
         <meta
           name="description"
